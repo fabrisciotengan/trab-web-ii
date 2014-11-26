@@ -29,7 +29,7 @@ public class Cliente {
         Scanner teclado = new Scanner(System.in);
         PrintStream saida = new PrintStream(cliente.getOutputStream());
 
-        saida.println("1;thiago;123456");
+        saida.println("101");
         
         // Imprime a mensagem recebida do servidor...
         Scanner s = null;
