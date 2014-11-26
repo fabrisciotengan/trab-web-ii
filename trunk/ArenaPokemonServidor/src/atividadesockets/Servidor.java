@@ -43,19 +43,19 @@ public class Servidor {
 
         //Variáveis para testar o envio dos dados para a aplicação de mapa.
         LinkedList listaLigada = new LinkedList();
-        ClienteClasse clientes = new ClienteClasse();
-        ClienteClasse clientes1 = new ClienteClasse();
-        clientes.setId("3");
-        clientes.setPokemon("1");
-        clientes.setVida("100");
-        clientes.setDirecao("2");
-        listaLigada.add(clientes);
+        Jogador personagem = new Jogador();
+        Jogador personagem1 = new Jogador();
+        personagem.setId("3");
+        personagem.setPokemon("1");
+        personagem.setVida("100");
+        personagem.setDirecao("2");
+        listaLigada.add(personagem);
 
-        clientes1.setId("4");
-        clientes1.setPokemon("3");
-        clientes1.setVida("100");
-        clientes1.setDirecao("4");
-        listaLigada.add(clientes1);
+        personagem1.setId("4");
+        personagem1.setPokemon("3");
+        personagem1.setVida("100");
+        personagem1.setDirecao("4");
+        listaLigada.add(personagem1);
 
         while (true) {
             Socket cliente = servidor.accept();
@@ -84,9 +84,9 @@ public class Servidor {
                                 if (m[i][j] != 0 && m[i][j] != 1 && m[i][j] != 2) {
                                     posicao = Integer.toString(m[i][j]);
                                     for (int k = 0; k < listaLigada.size(); k++) {
-                                        ClienteClasse criente = (ClienteClasse) listaLigada.get(k);
-                                        if (criente.getId() == null ? posicao == null : criente.getId().equals(posicao)) {
-                                            verJogadores = verJogadores + criente.getId() + ";" + criente.getPokemon() + ";" + criente.getVida() + ";" + posicao + ";" + criente.getDirecao() + "#";
+                                        Jogador jogador = (Jogador) listaLigada.get(k);
+                                        if (jogador.getId() == null ? posicao == null : jogador.getId().equals(posicao)) {
+                                            verJogadores = verJogadores + jogador.getId() + ";" + jogador.getPokemon() + ";" + jogador.getVida() + ";" + posicao + ";" + jogador.getDirecao() + "#";
                                         }
                                     }
                                 }

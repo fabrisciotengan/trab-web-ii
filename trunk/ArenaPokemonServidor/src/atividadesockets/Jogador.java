@@ -10,7 +10,7 @@ package atividadesockets;
  *
  * @author tierry
  */
-public class ClienteClasse {
+public class Jogador {
     private String id;
     private String login;
     private String senha;
