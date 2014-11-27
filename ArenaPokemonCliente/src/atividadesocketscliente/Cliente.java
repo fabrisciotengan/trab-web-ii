@@ -29,14 +29,14 @@ public class Cliente {
         Scanner teclado = new Scanner(System.in);
         PrintStream saida = new PrintStream(cliente.getOutputStream());
 
-        saida.println("101");
+        saida.println("1;thiago;123456");
         
-        // Imprime a mensagem recebida do servidor...
+        /*// Imprime a mensagem recebida do servidor...
         Scanner s = null;
         s = new Scanner(cliente.getInputStream());
         String teste = s.nextLine();
         System.out.println("Servidor: " + teste);
-        // -------------- testes acima...
+        // -------------- testes acima...*/
 
         while (teclado.hasNextLine()) {
             String palavra = teclado.nextLine();
