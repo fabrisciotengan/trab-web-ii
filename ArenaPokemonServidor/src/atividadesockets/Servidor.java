@@ -38,6 +38,8 @@ public class Servidor {
                 m[i][j] = 0;
             }
         }
+
+        //Faz parte do teste também, aqui coloco dois usuários em alguma posição da matriz para poder validar a função de 
         m[3][2] = 3;
         m[4][1] = 4;
 
@@ -72,9 +74,10 @@ public class Servidor {
                     } catch (IOException ex) {
                         Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
+                    boolean temInformacao = s.hasNextLine();
+                    String buf = s.nextLine();
                     //Aqui será a parte onde o servidor irá verificar se é o cara do mapa que está requisitando informações.
-                    if (s.hasNextLine() && "101".equals(s.nextLine())) {
+                    if (temInformacao == true && buf == "101") {
                         String verJogadores = "101;";
                         String posicao;
 
@@ -92,7 +95,7 @@ public class Servidor {
                                 }
                             }
                         }
-                        
+
                         //Aqui é onde envia a string com a posição, id, vida... para o mapa.
                         try {
                             saida = new PrintStream(cliente.getOutputStream());
@@ -104,9 +107,30 @@ public class Servidor {
                     } else {
 
                         //Aqui é onde realiza a autenticação do usuário e inicia suas ações.
-                        if (s.hasNextLine() && "1;thiago;123456".equals(s.nextLine())) {
-
-                            System.out.println(cliente.getInetAddress().getHostAddress() + " Logou-se ao jogo");
+                        if (temInformacao == true){
+                            
+                            //Parte do código que pega a string do cliente, separa e coloca em um objeto
+                            if(buf.charAt(0) == '1' && buf.charAt(1) == ';'){ 
+                                personagem.setLogin("");
+                                personagem.setSenha("");
+                                boolean controle = false;
+                                
+                                for (int i = 2; i < buf.length(); i++) {
+                                    if(controle == false){
+                                        if(buf.charAt(i) == ';'){
+                                            controle = true;
+                                        }else{
+                                            personagem.setLogin(personagem.getLogin()+buf.charAt(i));
+                                        }
+                                    }else{
+                                        personagem.setSenha(personagem.getSenha()+buf.charAt(i));
+                                    }                
+                                }
+                            }    
+                            System.out.println(personagem.getLogin());
+                            System.out.println(personagem.getSenha());
+                            
+                            /*System.out.println(cliente.getInetAddress().getHostAddress() + " Logou-se ao jogo");
 
                             // Envia mensagem ao cliente, desejando boas vindas.   
                             try {
@@ -132,10 +156,10 @@ public class Servidor {
                                 cliente.close();
                             } catch (IOException ex) {
                                 Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                            }*/
                         }
                     }
-
+                    s.close();
                     try {
                         cliente.close();
                     } catch (IOException ex) {
