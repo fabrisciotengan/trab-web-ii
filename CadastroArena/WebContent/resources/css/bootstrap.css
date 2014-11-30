@@ -12,13 +12,16 @@ panelCadastro{
   margin-right: 20%;
 }
 html {
-  background-image: url('#{resources['img/background.jpg']}');
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
 body {
+  background-image: url('#{resource['img/background.jpg']}') !important;
   margin: 0;
+}
+div.spacer {
+	min-height: 10px;
 }
 article,
 aside,
