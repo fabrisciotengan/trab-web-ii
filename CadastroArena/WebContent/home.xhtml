@@ -7,31 +7,25 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:rich="http://richfaces.org/rich"
     template="layout/template.xhtml">
-
+	<h:head>
+    	<h:outputStylesheet library="css" name="bootstrap.css" />
+	</h:head>
     <ui:define name="body">
-
-        <h1>Welcome to Seam!</h1>
-        <rich:panel>
-            <h:panelGrid columns="2">
-                <h:graphicImage value="/img/seamlogo.png" alt="Seam logo"/>
-                <s:div styleClass="info">
-                    <p><strong>Your seam-gen project is deployed!</strong> Here are some of the features this project provides:</p>
-                    <ul class="bullets">
-                        <li>Ant build script</li>
-                        <li>Deployment to JBoss AS 7(EAR or WAR)</li>
-                        <li>Development and production profiles</li>
-                        <li>Integration testing using TestNG and Embedded JBoss</li>
-                        <li>JavaBean or EJB 3.1 Seam components</li>
-                        <li>JPA entity classes</li>
-                        <li>A configurable DataSource and JPA EntityManager</li>
-                        <li>Templated Facelets views</li>
-                        <li>RichFaces 4 panels and tables</li>
-                        <li>Default CSS stylesheet</li>
-                        <li>Internationalization support</li>
-                    </ul>
-                </s:div>
-            </h:panelGrid>
-        </rich:panel>
-
+    <div class="panel panel-primary">
+    	<div class="panel-heading">
+    		<h3 class="panel-title">Cadastro</h3>
+  		</div>
+  		<div class="panel-body">
+	    	<h:form>
+		    		<h:outputLabel value="Login " />
+		    		<h:inputText value="#{usuario.login}" required="true" class="form-control" size="10"  placeholder="Login"/>
+		    		<h:outputLabel value="Senha " />
+		    		<h:inputSecret value="#{usuario.senha}" required="true" class="form-control" placeholder="Senha"/>
+		    		<h:outputLabel value="Pokemon " />
+		    		<h:inputText value="#{usuario.pokemon}" required="true" class="form-control" placeholder="Pokemon"/>
+		    		<button class="btn btn-primary" onclick="#{cadastroAction.salvar()}" >Cadastrar</button>
+	    	</h:form>
+  		</div>
+    </div>
     </ui:define>
 </ui:composition>
