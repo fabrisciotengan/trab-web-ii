@@ -27,5 +27,16 @@
 	    	</h:form>
   		</div>
     </div>
+    
+    <div>
+    	<rich:extendedDataTable  var="_usuario" value="#{cadastroAction.listar()}">
+    		<rich:column width="300">
+    			<h:outputText value="#{_usuario.login}" />
+    		</rich:column>
+    		<rich:column width="300">
+    			<h:outputText value="#{_usuario.pokemon}" />
+    		</rich:column>
+    	</rich:extendedDataTable>
+    </div>
     </ui:define>
 </ui:composition>
