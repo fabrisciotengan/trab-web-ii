@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package atividadesockets;
 
 /**
@@ -11,6 +10,7 @@ package atividadesockets;
  * @author tierry
  */
 public class Jogador {
+
     private String id;
     private String login;
     private String senha;
@@ -66,4 +66,3 @@ public class Jogador {
         this.direcao = direcao;
     }
 }
-
