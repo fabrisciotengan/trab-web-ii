@@ -24,19 +24,19 @@ public class Cliente {
     public static void main(String[] args)
             throws UnknownHostException, IOException {
         // TODO code application logic here
-        Socket cliente = new Socket("192.168.2.105", 12345);
+        Socket cliente = new Socket("192.168.2.100", 12345);
 
         Scanner teclado = new Scanner(System.in);
         PrintStream saida = new PrintStream(cliente.getOutputStream());
 
         saida.println("1;thiago;123456");
+        //saida.println("101");
         
-        /*// Imprime a mensagem recebida do servidor...
+        // Imprime a mensagem recebida do servidor...
         Scanner s = null;
         s = new Scanner(cliente.getInputStream());
         String teste = s.nextLine();
         System.out.println("Servidor: " + teste);
-        // -------------- testes acima...*/
 
         while (teclado.hasNextLine()) {
             String palavra = teclado.nextLine();
