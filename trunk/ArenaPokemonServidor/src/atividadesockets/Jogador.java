@@ -65,4 +65,8 @@ public class Jogador {
     public void setDirecao(String direcao) {
         this.direcao = direcao;
     }
+    
+    public void direcao(Jogador jogador ){
+        
+    }
 }
