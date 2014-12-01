@@ -25,15 +25,16 @@ public class Servidor {
      * @throws java.io.IOException
      */
     //Matriz do nosso joguinho =]
-    static int m[][] = new int[5][5];
-
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
 
+        int linha = 5;
+        int coluna = 5;
+        int m[][] = new int[linha][coluna];
         ServerSocket servidor = new ServerSocket(12345);
         System.out.println("Porta 12345 aberta!");
         Controle controle = new Controle();
-        controle.iniciaMatriz(m);
+        controle.iniciaMatriz(m, linha, coluna);
 
         //Variáveis para testar o envio dos dados para a aplicação de mapa.
         LinkedList listaLigada = new LinkedList();
@@ -70,13 +71,24 @@ public class Servidor {
                     boolean temInformacao = s.hasNextLine();
                     String buf = s.nextLine();
 
+                    //Ver mapa
+                    if (temInformacao == true && "100".equals(buf)) {
+                        try {
+                            //Aqui é onde envia a string com a posição, id, vida... para o mapa.
+                            saida = new PrintStream(cliente.getOutputStream());
+                            saida.println(controle.verMapa(m, linha, coluna));
+                        } catch (IOException ex) {
+                            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+
                     //Aqui será a parte onde o servidor irá verificar se é o cara do mapa que está requisitando informações.
                     if (temInformacao == true && "101".equals(buf)) {
 
                         try {
                             //Aqui é onde envia a string com a posição, id, vida... para o mapa.
                             saida = new PrintStream(cliente.getOutputStream());
-                            saida.println(controle.imprimeJogadores(listaLigada, m));
+                            saida.println(controle.verJogadores(listaLigada, m, linha, coluna));
                         } catch (IOException ex) {
                             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -98,14 +110,47 @@ public class Servidor {
                                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                                 }
 
-                                // Aqui o servidor fica em um loop infinito recebendo informações do cliente até que ele envie "9999", que é onde sai do loop.
-                                //Aqui dentro que tem que por os IF's para efetuar as ações de atacar... andar...
+                                /* Aqui o servidor fica em um loop infinito recebendo informações do cliente até que ele envie "9999", que é onde sai do loop.
+                                 * Aqui dentro que tem que por os IF's para efetuar as ações de atacar... andar..
+                                 */
                                 while (s.hasNextLine()) {
                                     String codigo = s.nextLine();
                                     System.out.println(codigo);
+                                    //Se o usuário enviar o código 9999 ele desconecta do servidor.
                                     if ("9999".equals(codigo)) {
                                         System.out.println(cliente.getInetAddress().getHostAddress() + " Desconectou-se");
                                         break;
+                                    } else {
+                                        //Direação
+                                        if (codigo.charAt(0) == '1' && codigo.charAt(1) == '0' && codigo.charAt(2) == ';') {
+                                            switch (codigo.charAt(3)) {
+                                                //Muda a direação para cima
+                                                case '1':
+                                                    System.out.println("movi pra cima, huhu, sou pro!");
+                                                    break;
+                                                //Muda a direação para baixo
+                                                case '2':
+                                                    break;
+                                                //Muda a direação para direita
+                                                case '3':
+                                                    break;
+                                                //Muda a direação para esquerda
+                                                case '4':
+                                                    break;
+                                                default:
+                                                    System.out.println("B.Ó no teu código xômano.");
+                                            }
+                                        } else {
+                                            //Atacar
+                                            if (codigo.charAt(0) == '1' && codigo.charAt(1) == '1') {
+
+                                            } else {
+                                                //Andar
+                                                if (codigo.charAt(0) == '1' && codigo.charAt(1) == '2') {
+
+                                                }
+                                            }
+                                        }
                                     }
                                 }
 

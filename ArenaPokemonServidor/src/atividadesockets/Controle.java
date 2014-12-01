@@ -12,7 +12,7 @@ import java.util.LinkedList;
  * @author tierry
  */
 public class Controle {
-    
+
     //Autentica os usuários
     public boolean autentica(String usuario, Jogador jogador) {
 
@@ -37,37 +37,51 @@ public class Controle {
             return false;
         }
     }
-    
+
     //Método que zera todas as posições da matriz e coloca os obstáculos randômicos na matriz
-    public void iniciaMatriz(int mapa[][]) {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+    public void iniciaMatriz(int mapa[][], int linha, int coluna) {
+        for (int i = 0; i < linha; i++) {
+            for (int j = 0; j < coluna; j++) {
                 mapa[i][j] = 0;
             }
         }
         mapa[3][2] = 3;
         mapa[4][1] = 4;
     }
-    
+
     //Aqui há um for para percorrer a lista pegando os usuários e formando a string a ser enviada à aplicação mapa.
-    public String imprimeJogadores(LinkedList lista, int mapa[][]) {
+    public String verJogadores(LinkedList lista, int mapa[][], int linha, int coluna) {
         String verJogadores = "101;";
         String posicao;
-        
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+
+        for (int i = 0; i < linha; i++) {
+            for (int j = 0; j < coluna; j++) {
                 if (mapa[i][j] != 0 && mapa[i][j] != 1 && mapa[i][j] != 2) {
                     posicao = Integer.toString(mapa[i][j]);
-                    for (int k = 0; k < lista.size(); k++) {
-                        Jogador jogador = (Jogador) lista.get(k);
+                    for (Object lista1 : lista) {
+                        Jogador jogador = (Jogador) lista1;
                         if (jogador.getId() == null ? posicao == null : jogador.getId().equals(posicao)) {
-                            verJogadores = verJogadores + jogador.getId() + ";" + jogador.getPokemon() + ";" + jogador.getVida() + ";" + posicao + ";" + jogador.getDirecao() + "#";
+                            verJogadores = verJogadores +jogador.getId() + ";" + jogador.getPokemon() + ";" + jogador.getVida() + ";" + posicao + ";" + jogador.getDirecao() + "#";
                         }
                     }
                 }
             }
         }
         return verJogadores;
+    }
+
+    public String verMapa(int mapa[][], int linha, int coluna) {
+        String l = Integer.toString(linha);
+        String c = Integer.toString(coluna);
+        
+        String verMapa = "100;"+l+";"+c;
+
+        for (int i = 0; i < linha; i++) {
+            for (int j = 0; j < coluna; j++) {
+                verMapa = verMapa +";"+ Integer.toString(mapa[i][j]);
+            }
+        }
+        return verMapa;
     }
 
 }
