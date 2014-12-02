@@ -6,6 +6,7 @@
 package atividadesockets;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -50,24 +51,19 @@ public class Controle {
     }
 
     //Aqui há um for para percorrer a lista pegando os usuários e formando a string a ser enviada à aplicação mapa.
-    public String verJogadores(LinkedList lista, int mapa[][], int linha, int coluna) {
-        String verJogadores = "101;";
-        String posicao;
-
-        for (int i = 0; i < linha; i++) {
-            for (int j = 0; j < coluna; j++) {
-                if (mapa[i][j] != 0 && mapa[i][j] != 1 && mapa[i][j] != 2) {
-                    posicao = Integer.toString(mapa[i][j]);
-                    for (Object lista1 : lista) {
-                        Jogador jogador = (Jogador) lista1;
-                        if (jogador.getId() == null ? posicao == null : jogador.getId().equals(posicao)) {
-                            verJogadores = verJogadores + jogador.getId() + ";" + jogador.getPokemon() + ";" + jogador.getVida() + ";" + jogador.getDirecao() + "#";
-                        }
-                    }
-                }
+    public String verJogadores(List<Jogador> lista, int mapa[][], int linha, int coluna) {
+        StringBuffer verJogadores = new StringBuffer();
+        verJogadores.append("101;");
+        int i = 0;
+        
+        for (Jogador jogador : lista) {
+        	verJogadores.append(jogador.getId()).append(";").append(jogador.getPokemon()).append(";").append(jogador.getVida()).append(";").append(jogador.getDirecao());
+            if(i != lista.size() - 1){
+            	verJogadores.append("#");
             }
+            i++;
         }
-        return verJogadores;
+        return verJogadores.toString();
     }
     
     //Método que mostra o mapa e todos os personagens nele.
