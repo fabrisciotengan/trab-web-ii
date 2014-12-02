@@ -61,7 +61,7 @@ public class Controle {
                     for (Object lista1 : lista) {
                         Jogador jogador = (Jogador) lista1;
                         if (jogador.getId() == null ? posicao == null : jogador.getId().equals(posicao)) {
-                            verJogadores = verJogadores + jogador.getId() + ";" + jogador.getPokemon() + ";" + jogador.getVida() + ";" + posicao + ";" + jogador.getDirecao() + "#";
+                            verJogadores = verJogadores + jogador.getId() + ";" + jogador.getPokemon() + ";" + jogador.getVida() + ";" + jogador.getDirecao() + "#";
                         }
                     }
                 }
@@ -69,7 +69,8 @@ public class Controle {
         }
         return verJogadores;
     }
-
+    
+    //Método que mostra o mapa e todos os personagens nele.
     public String verMapa(int mapa[][], int linha, int coluna) {
         String l = Integer.toString(linha);
         String c = Integer.toString(coluna);

@@ -125,19 +125,19 @@ public class Servidor {
                                             switch (codigo.charAt(3)) {
                                                 //Muda a direação para cima
                                                 case '1':
-                                                    personagem.setDirecao('1');
+                                                    personagem.setDirecao("1");
                                                     break;
                                                 //Muda a direação para baixo
                                                 case '2':
-                                                    personagem.setDirecao('2');
+                                                    personagem.setDirecao("2");
                                                     break;
                                                 //Muda a direação para direita
                                                 case '3':
-                                                    personagem.setDirecao('3');
+                                                    personagem.setDirecao("3");
                                                     break;
                                                 //Muda a direação para esquerda
                                                 case '4':
-                                                    personagem.setDirecao('4');
+                                                    personagem.setDirecao("4");
                                                     break;  
                                                 default:
                                                     System.out.println("B.Ó no código do cliente xômano.");
@@ -149,7 +149,7 @@ public class Servidor {
                                             } else {
                                                 //Andar
                                                 if (codigo.charAt(0) == '1' && codigo.charAt(1) == '2') {
-                                                    
+                                                    personagem.andar(personagem.getDirecao(), linha, coluna, personagem.getId(), m);
                                                 }
                                             }
                                         }
