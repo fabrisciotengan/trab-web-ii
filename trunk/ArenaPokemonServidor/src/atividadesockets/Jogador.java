@@ -5,6 +5,8 @@
  */
 package atividadesockets;
 
+import javax.xml.bind.ParseConversionEvent;
+
 /**
  *
  * @author tierry
@@ -17,6 +19,7 @@ public class Jogador {
     private String pokemon;
     private String vida;
     private String direcao;
+    
 
     public String getId() {
         return id;
@@ -66,7 +69,29 @@ public class Jogador {
         this.direcao = direcao;
     }
     
-    public void direcao(Jogador jogador ){
+    public void minhaPosicao(){}
+    
+    public void andar(char direcao, int linha, int coluna, String id, int mapa[][] ){
         
+        int posicao = Integer.parseInt(id);
+        int posicaoLinha = 0;
+        int posicaoColuna = 0;
+        
+        for (int i = 0; i < linha; i++) {
+            for (int j = 0; j < coluna; j++) {
+                if (mapa[i][j] == posicao) {
+                    posicaoLinha = i;
+                    posicaoColuna = j;
+                }
+            }
+        }
+        
+        switch(direcao){
+            case '1':
+                if((posicaoColuna-1) > -1 && mapa[linha][coluna-1] < 3){
+                    mapa[linha][coluna-1] = posicao;
+                }
+                break;
+        }
     }
 }

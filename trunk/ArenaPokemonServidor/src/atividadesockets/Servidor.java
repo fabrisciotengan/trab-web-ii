@@ -24,7 +24,6 @@ public class Servidor {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    //Matriz do nosso joguinho =]
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
 
@@ -126,28 +125,31 @@ public class Servidor {
                                             switch (codigo.charAt(3)) {
                                                 //Muda a direação para cima
                                                 case '1':
-                                                    System.out.println("movi pra cima, huhu, sou pro!");
+                                                    personagem.setDirecao('1');
                                                     break;
                                                 //Muda a direação para baixo
                                                 case '2':
+                                                    personagem.setDirecao('2');
                                                     break;
                                                 //Muda a direação para direita
                                                 case '3':
+                                                    personagem.setDirecao('3');
                                                     break;
                                                 //Muda a direação para esquerda
                                                 case '4':
-                                                    break;
+                                                    personagem.setDirecao('4');
+                                                    break;  
                                                 default:
-                                                    System.out.println("B.Ó no teu código xômano.");
+                                                    System.out.println("B.Ó no código do cliente xômano.");
                                             }
                                         } else {
                                             //Atacar
                                             if (codigo.charAt(0) == '1' && codigo.charAt(1) == '1') {
-
+                                                
                                             } else {
                                                 //Andar
                                                 if (codigo.charAt(0) == '1' && codigo.charAt(1) == '2') {
-
+                                                    
                                                 }
                                             }
                                         }
@@ -155,11 +157,11 @@ public class Servidor {
                                 }
 
                             } else {
-                            	try {
-	                            	saida = new PrintStream(cliente.getOutputStream());
-	                            	saida.println(cliente.getInetAddress().getHostAddress() + " Falha ao conectar-se ao jogo, login ou senha incorreta.");
-	                                System.out.println(cliente.getInetAddress().getHostAddress() + " Falha ao conectar-se ao jogo, login ou senha incorreta.");
-	                                s.close();
+                                try {
+                                    saida = new PrintStream(cliente.getOutputStream());
+                                    saida.println(cliente.getInetAddress().getHostAddress() + " Falha ao conectar-se ao jogo, login ou senha incorreta.");
+                                    System.out.println(cliente.getInetAddress().getHostAddress() + " Falha ao conectar-se ao jogo, login ou senha incorreta.");
+                                    s.close();
                                     cliente.close();
                                 } catch (IOException ex) {
                                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
