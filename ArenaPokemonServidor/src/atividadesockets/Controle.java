@@ -19,16 +19,16 @@ public class Controle {
         jogador.setLogin("");
         jogador.setSenha("");
         boolean controle = false;
-        
+
         String comando;
         String login;
         String senha;
-        
+
         String[] valores = usuario.split(";");
         comando = valores[0];
         login = valores[1];
         senha = valores[2];
-        
+
         jogador.setLogin(login);
         jogador.setSenha(senha);
         if ("thiago".equals(jogador.getLogin()) && "123456".equals(jogador.getSenha())) {
@@ -61,7 +61,7 @@ public class Controle {
                     for (Object lista1 : lista) {
                         Jogador jogador = (Jogador) lista1;
                         if (jogador.getId() == null ? posicao == null : jogador.getId().equals(posicao)) {
-                            verJogadores = verJogadores +jogador.getId() + ";" + jogador.getPokemon() + ";" + jogador.getVida() + ";" + posicao + ";" + jogador.getDirecao() + "#";
+                            verJogadores = verJogadores + jogador.getId() + ";" + jogador.getPokemon() + ";" + jogador.getVida() + ";" + posicao + ";" + jogador.getDirecao() + "#";
                         }
                     }
                 }
@@ -73,12 +73,12 @@ public class Controle {
     public String verMapa(int mapa[][], int linha, int coluna) {
         String l = Integer.toString(linha);
         String c = Integer.toString(coluna);
-        
-        String verMapa = "100;"+l+";"+c;
+
+        String verMapa = "100;" + l + ";" + c;
 
         for (int i = 0; i < linha; i++) {
             for (int j = 0; j < coluna; j++) {
-                verMapa = verMapa +";"+ Integer.toString(mapa[i][j]);
+                verMapa = verMapa + ";" + Integer.toString(mapa[i][j]);
             }
         }
         return verMapa;
