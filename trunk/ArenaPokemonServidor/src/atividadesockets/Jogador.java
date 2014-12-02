@@ -19,7 +19,6 @@ public class Jogador {
     private String pokemon;
     private String vida;
     private String direcao;
-    
 
     public String getId() {
         return id;
@@ -68,15 +67,13 @@ public class Jogador {
     public void setDirecao(String direcao) {
         this.direcao = direcao;
     }
-    
-    public void minhaPosicao(){}
-    
-    public void andar(char direcao, int linha, int coluna, String id, int mapa[][] ){
-        
+
+    public void andar(String direcao, int linha, int coluna, String id, int mapa[][]) {
+
         int posicao = Integer.parseInt(id);
         int posicaoLinha = 0;
         int posicaoColuna = 0;
-        
+
         for (int i = 0; i < linha; i++) {
             for (int j = 0; j < coluna; j++) {
                 if (mapa[i][j] == posicao) {
@@ -85,13 +82,39 @@ public class Jogador {
                 }
             }
         }
-        
-        switch(direcao){
-            case '1':
-                if((posicaoColuna-1) > -1 && mapa[linha][coluna-1] < 3){
-                    mapa[linha][coluna-1] = posicao;
+
+        switch (direcao) {
+            case "1":
+                if ((posicaoLinha - 1) > -1 && mapa[posicaoLinha - 1][posicaoColuna] == 0) {
+                    mapa[posicaoLinha][posicaoColuna] = 0;
+                    mapa[posicaoLinha - 1][posicaoColuna] = posicao;
                 }
                 break;
+            case "2":
+                if ((posicaoLinha + 1) < linha && mapa[posicaoLinha + 1][posicaoColuna] == 0) {
+                    mapa[posicaoLinha][posicaoColuna] = 0;
+                    mapa[posicaoLinha + 1][posicaoColuna] = posicao;
+                }
+                break;
+            case "3":
+                if ((posicaoColuna + 1) < coluna && mapa[posicaoLinha][posicaoColuna + 1] == 0) {
+                    mapa[posicaoLinha][posicaoColuna] = 0;
+                    mapa[posicaoLinha][posicaoColuna + 1] = posicao;
+                }
+                break;
+            case "4":
+                if ((posicaoColuna - 1) > -1 && mapa[posicaoLinha][posicaoColuna - 1] == 0) {
+                    mapa[posicaoLinha][posicaoColuna] = 0;
+                    mapa[posicaoLinha][posicaoColuna - 1] = posicao;
+                }
+                break;
+            default:
+                System.out.println("Erro, comando de direção incorreto.");
         }
+
+    }
+    
+    public void atacar(String direcao, int linha, int coluna, String id, int mapa[][] ){
+        
     }
 }
