@@ -19,18 +19,18 @@ public class Controle {
         jogador.setLogin("");
         jogador.setSenha("");
         boolean controle = false;
-
-        for (int i = 2; i < usuario.length(); i++) {
-            if (controle == false) {
-                if (usuario.charAt(i) == ';') {
-                    controle = true;
-                } else {
-                    jogador.setLogin(jogador.getLogin() + usuario.charAt(i));
-                }
-            } else {
-                jogador.setSenha(jogador.getSenha() + usuario.charAt(i));
-            }
-        }
+        
+        String comando;
+        String login;
+        String senha;
+        
+        String[] valores = usuario.split(";");
+        comando = valores[0];
+        login = valores[1];
+        senha = valores[2];
+        
+        jogador.setLogin(login);
+        jogador.setSenha(senha);
         if ("thiago".equals(jogador.getLogin()) && "123456".equals(jogador.getSenha())) {
             return true;
         } else {
