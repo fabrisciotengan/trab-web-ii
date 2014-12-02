@@ -113,8 +113,51 @@ public class Jogador {
         }
 
     }
-    
-    public void atacar(String direcao, int linha, int coluna, String id, int mapa[][] ){
-        
+
+    public void atacar(String direcao, int linha, int coluna, String id, int mapa[][]) {
+        int posicao = Integer.parseInt(id);
+        int posicaoLinha = 0;
+        int posicaoColuna = 0;
+
+        for (int i = 0; i < linha; i++) {
+            for (int j = 0; j < coluna; j++) {
+                if (mapa[i][j] == posicao) {
+                    posicaoLinha = i;
+                    posicaoColuna = j;
+                }
+            }
+        }
+
+        switch (direcao) {
+            case "1":
+                //Aqui o tiro vai percorrer os 5 tails acima.
+                for (int i = 1; i < 6; i++) {
+                    //Atirou para cima e acertou a borda da matriz ou atirou numa parede...
+                    if(mapa[posicaoLinha-i][posicaoColuna] < 0 || mapa[posicaoLinha-i][posicaoColuna] == 1 ){
+                        break;
+                    }else{
+                        //Atirou e acertou um alvo...
+                        if(mapa[posicaoLinha-1][posicaoColuna] > 2){
+                            //Aqui fica o código onde o tiro acertou o alvo.
+                            
+                            break;
+                        }
+                    }
+                    
+                }
+                break;
+            case "2":
+
+                break;
+            case "3":
+ 
+                break;
+            case "4":
+
+                break;
+            default:
+                System.out.println("Problema ao atacar.");
+        }
+
     }
 }

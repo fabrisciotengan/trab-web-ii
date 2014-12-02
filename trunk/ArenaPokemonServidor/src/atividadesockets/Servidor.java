@@ -145,7 +145,7 @@ public class Servidor {
                                         } else {
                                             //Atacar
                                             if (codigo.charAt(0) == '1' && codigo.charAt(1) == '1') {
-                                                
+                                                personagem.atacar(personagem.getDirecao(), linha, coluna, personagem.getId(), m);
                                             } else {
                                                 //Andar
                                                 if (codigo.charAt(0) == '1' && codigo.charAt(1) == '2') {
