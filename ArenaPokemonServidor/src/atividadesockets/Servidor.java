@@ -28,17 +28,17 @@ public class Servidor {
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
 
-        int linha = 5;
-        int coluna = 5;
-        int m[][] = new int[linha][coluna];
+        final int linha = 5;
+        final int coluna = 5;
+        final int m[][] = new int[linha][coluna];
         ServerSocket servidor = new ServerSocket(12345);
         System.out.println("Porta 12345 aberta!");
-        Controle controle = new Controle();
+        final Controle controle = new Controle();
         controle.iniciaMatriz(m, linha, coluna);
 
         //Variáveis para testar o envio dos dados para a aplicação de mapa.
-        LinkedList listaLigada = new LinkedList();
-        Jogador personagem = new Jogador();
+        final LinkedList listaLigada = new LinkedList();
+        final Jogador personagem = new Jogador();
         Jogador personagem1 = new Jogador();
         personagem.setId("3");
         personagem.setPokemon("1");
@@ -53,7 +53,7 @@ public class Servidor {
         listaLigada.add(personagem1);
 
         while (true) {
-            Socket cliente = servidor.accept();
+            final Socket cliente = servidor.accept();
 
             Thread tratar = new Thread() {
                 @Override
@@ -155,9 +155,11 @@ public class Servidor {
                                 }
 
                             } else {
-                                System.out.println(cliente.getInetAddress().getHostAddress() + " Falha ao conecatar-se ao jogo, login ou senha incorreta.");
-                                s.close();
-                                try {
+                            	try {
+	                            	saida = new PrintStream(cliente.getOutputStream());
+	                            	saida.println(cliente.getInetAddress().getHostAddress() + " Falha ao conectar-se ao jogo, login ou senha incorreta.");
+	                                System.out.println(cliente.getInetAddress().getHostAddress() + " Falha ao conectar-se ao jogo, login ou senha incorreta.");
+	                                s.close();
                                     cliente.close();
                                 } catch (IOException ex) {
                                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
