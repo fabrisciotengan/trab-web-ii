@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,20 +38,20 @@ public class Servidor {
         controle.iniciaMatriz(m, linha, coluna);
 
         //Variáveis para testar o envio dos dados para a aplicação de mapa.
-        final LinkedList listaLigada = new LinkedList();
+        final List<Jogador> listaUsuarios = new ArrayList<>();
         final Jogador personagem = new Jogador();
         Jogador personagem1 = new Jogador();
-        personagem.setId("3");
+        personagem.setId(3);
         personagem.setPokemon("1");
         personagem.setVida("100");
         personagem.setDirecao("2");
-        listaLigada.add(personagem);
+        listaUsuarios.add(personagem);
 
-        personagem1.setId("4");
+        personagem1.setId(4);
         personagem1.setPokemon("3");
         personagem1.setVida("100");
         personagem1.setDirecao("4");
-        listaLigada.add(personagem1);
+        listaUsuarios.add(personagem1);
 
         while (true) {
             final Socket cliente = servidor.accept();
@@ -87,19 +89,22 @@ public class Servidor {
                         try {
                             //Aqui é onde envia a string com a posição, id, vida... para o mapa.
                             saida = new PrintStream(cliente.getOutputStream());
-                            saida.println(controle.verJogadores(listaLigada, m, linha, coluna));
+                            saida.println(controle.verJogadores(listaUsuarios, m, linha, coluna));
                         } catch (IOException ex) {
                             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     } else {
                         //Parte do código que pega a string do cliente, separa e coloca em um objeto
+                    	//Autenticação
                         if (buf.charAt(0) == '1' && buf.charAt(1) == ';' && temInformacao == true) {
-
-                            if (controle.autentica(buf, personagem)) {
-                                System.out.println(personagem.getLogin());
-                                System.out.println(personagem.getSenha());
+                        	Jogador jogador = controle.autentica(buf, listaUsuarios);
+                            if ( jogador == null ? false : true) {
                                 System.out.println(cliente.getInetAddress().getHostAddress() + " Logou-se ao jogo");
+                                
+                                //coloca o jogador em uma posição random na matriz
+                                
+                               controle.insereJogador(jogador, m, linha, coluna);
 
                                 // Envia mensagem ao cliente, desejando boas vindas.   
                                 try {
@@ -145,11 +150,11 @@ public class Servidor {
                                         } else {
                                             //Atacar
                                             if (codigo.charAt(0) == '1' && codigo.charAt(1) == '1') {
-                                                personagem.atacar(personagem.getDirecao(), linha, coluna, personagem.getId(), m);
+//                                                personagem.atacar(personagem.getDirecao(), linha, coluna, personagem.getId(), m);
                                             } else {
                                                 //Andar
                                                 if (codigo.charAt(0) == '1' && codigo.charAt(1) == '2') {
-                                                    personagem.andar(personagem.getDirecao(), linha, coluna, personagem.getId(), m);
+//                                                    personagem.andar(personagem.getDirecao(), linha, coluna, personagem.getId(), m);
                                                 }
                                             }
                                         }

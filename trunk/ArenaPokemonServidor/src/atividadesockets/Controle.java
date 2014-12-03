@@ -7,6 +7,9 @@ package atividadesockets;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
+
+import Dao.JogadorDao;
 
 /**
  *
@@ -15,10 +18,8 @@ import java.util.List;
 public class Controle {
 
     //Autentica os usuários
-    public boolean autentica(String usuario, Jogador jogador) {
+    public Jogador autentica(String usuario, List<Jogador> jogadores) {
 
-        jogador.setLogin("");
-        jogador.setSenha("");
         boolean controle = false;
 
         String comando;
@@ -29,14 +30,18 @@ public class Controle {
         comando = valores[0];
         login = valores[1];
         senha = valores[2];
+        
+        JogadorDao jogadorDAO = new JogadorDao();
+    	Jogador jogadorBD = jogadorDAO.buscar(login);
+    	if(jogadorBD != null){
+    		if(jogadorBD.getSenha().equals(senha)){
+    			jogadores.add(jogadorBD);
+    			return jogadorBD;
+    		}
+    	}
+    	return null;
+    	
 
-        jogador.setLogin(login);
-        jogador.setSenha(senha);
-        if ("thiago".equals(jogador.getLogin()) && "123456".equals(jogador.getSenha())) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     //Método que zera todas as posições da matriz e coloca os obstáculos randômicos na matriz
@@ -80,5 +85,11 @@ public class Controle {
         }
         return verMapa;
     }
-
+    public void insereJogador(Jogador jogador, int mapa[][], int linha, int coluna){
+    	Random rand = new Random();
+    	
+    	linha = rand.nextInt(linha);
+    	rand = new Random();
+    	coluna = rand.nextInt(coluna);
+    }
 }
