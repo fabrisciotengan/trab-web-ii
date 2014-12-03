@@ -19,7 +19,6 @@ html {
 }
 body {
   background-image: url('#{resource['img/background.jpg']}') !important;
-  background-repeat: no-repeat !important;
   margin: 0;
 }
 div.spacer {
