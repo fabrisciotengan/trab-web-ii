@@ -7,14 +7,16 @@ import java.sql.Statement;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import atividadesockets.Jogador;
 
 public class JogadorDao {
 	
-	private final String URL = "jdbc:mysql://localhost:3306",  
-	         NOME = "root", SENHA = "1234";  
+	private final String URL = "jdbc:mysql://localhost/arena",  
+	         NOME = "root", SENHA = "root";  
 	  
 	   private Connection con;  
 	   private Statement comando;  
@@ -35,28 +37,27 @@ public class JogadorDao {
 
 	
 	
-	public Vector<Jogador> buscar(String login) {  
+	public Jogador buscar(String login) {  
 	      conectar();  
-	      Vector<Jogador> resultados = new Vector<Jogador>();  
+	      Jogador jogador = new Jogador();  
 	      ResultSet rs;  
-	      try {  
-	         rs = comando.executeQuery("SELECT * FROM jogador WHERE login = ;" + login); 
+	         try {
+				rs = comando.executeQuery("SELECT * FROM usuario WHERE login = '" + login + "';");
 	         
 	         while (rs.next()) {  
 	        	 
-	            Jogador temp = new Jogador();  
 	            // pega todos os atributos da pessoa  
-	            temp.setId(rs.getInt("id"));  
-	            temp.setLogin(rs.getString("login"));  
-	            temp.setSenha(rs.getString("senha"));  
-	            temp.setPokemon(rs.getString("pokemon"));  
+	            jogador.setId(rs.getInt("id"));  
+	            jogador.setLogin(rs.getString("login"));  
+	            jogador.setPokemon(rs.getString("pokemon"));  
+	            jogador.setSenha(rs.getString("senha"));  
 	            
-	            resultados.add(temp);  
 	         }  
-	         return resultados;  
-	      } catch (SQLException e) {   
-	         return null;  
-	      }  
+	         } catch (SQLException e) {
+	        	 // TODO Auto-generated catch block
+	        	 e.printStackTrace();
+	         } 
+	         return jogador;  
 	  
 	   } 
 	
@@ -64,9 +65,9 @@ public class JogadorDao {
 		      try {  
 		         comando.close();  
 		         con.close();  
-		         System.out.println("Conexão Fechada");  
+		         System.out.println("Conexï¿½o Fechada");  
 		      } catch (SQLException e) {  
-		         System.out.println("Erro ao fechar conexão");  
+		         System.out.println("Erro ao fechar conexï¿½o");  
 		      }  
 		   } 	
 } 

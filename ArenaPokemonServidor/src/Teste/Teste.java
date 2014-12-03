@@ -1,5 +1,6 @@
 package Teste;
 
+import java.util.List;
 import java.util.Vector;
 
 import atividadesockets.Jogador;
@@ -10,9 +11,9 @@ public class Teste {
 	public static void main(String[] args){
 		
 		JogadorDao obj = new JogadorDao();
-		 Vector<Jogador> resultado = obj.buscar("bruno");
+//		 List<Jogador> resultado = obj.buscar("a");
 		 
-		 System.out.println(((Jogador) resultado.get(0)).getId());
+//		 System.out.println(resultado.get(0).getId());
 		
 		
 		

@@ -5,7 +5,6 @@
  */
 package atividadesockets;
 
-import javax.xml.bind.ParseConversionEvent;
 
 /**
  *
@@ -13,18 +12,18 @@ import javax.xml.bind.ParseConversionEvent;
  */
 public class Jogador {
 
-    private String id;
+    private int id;
     private String login;
     private String senha;
     private String pokemon;
     private String vida;
     private String direcao;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -114,8 +113,8 @@ public class Jogador {
 
     }
 
-    public void atacar(String direcao, int linha, int coluna, String id, int mapa[][]) {
-        int posicao = Integer.parseInt(id);
+    public void atacar(String direcao, int linha, int coluna, int id, int mapa[][]) {
+        int posicao = id;
         int posicaoLinha = 0;
         int posicaoColuna = 0;
 
