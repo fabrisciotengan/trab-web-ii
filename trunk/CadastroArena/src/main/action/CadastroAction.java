@@ -5,6 +5,7 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
@@ -19,7 +20,7 @@ import bean.Usuario;
 @Scope(ScopeType.SESSION)
 public class CadastroAction {
 	@Out
-	@In
+	@In(create = true, required = false)
 	private Usuario usuario;
 	
 	@DataModel
@@ -32,9 +33,12 @@ public class CadastroAction {
 	
 	public void salvar(){
 		if(valido()){
+			usuario.setDirecao("1");
+			usuario.setVida("100");
 			entityManager.persist(usuario);
 			entityManager.flush();
 		}
+		usuario = new Usuario();
 	}
 	
 	@Factory("usuarios")
@@ -55,7 +59,16 @@ public class CadastroAction {
 		if(this.usuario.getSenha() == null){
 			return false;
 		}
-		
-		return true;
+		return !existeLogin();
+	}
+	public boolean existeLogin(){
+		Session session = (Session) entityManager.getDelegate();
+		Criteria criteria = session.createCriteria(Usuario.class);
+		criteria.add(Restrictions.eq("login", usuario.getLogin()));
+		Usuario usuarioBD = (Usuario) criteria.uniqueResult();
+		if(usuarioBD != null){
+			return true;
+		}
+		return false;
 	}
 }
