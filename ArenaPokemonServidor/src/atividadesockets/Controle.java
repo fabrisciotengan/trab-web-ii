@@ -35,6 +35,9 @@ public class Controle {
     	Jogador jogadorBD = jogadorDAO.buscar(login);
     	if(jogadorBD != null){
     		if(jogadorBD.getSenha().equals(senha)){
+    			if(jogadores.contains(jogadorBD)){
+    				jogadores.remove(jogadorBD);
+    			}
     			jogadores.add(jogadorBD);
     			return jogadorBD;
     		}
