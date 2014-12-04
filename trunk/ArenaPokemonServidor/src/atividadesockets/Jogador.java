@@ -159,4 +159,58 @@ public class Jogador {
         }
 
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((direcao == null) ? 0 : direcao.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((login == null) ? 0 : login.hashCode());
+		result = prime * result + ((pokemon == null) ? 0 : pokemon.hashCode());
+		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
+		result = prime * result + ((vida == null) ? 0 : vida.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Jogador other = (Jogador) obj;
+		if (direcao == null) {
+			if (other.direcao != null)
+				return false;
+		} else if (!direcao.equals(other.direcao))
+			return false;
+		if (id != other.id)
+			return false;
+		if (login == null) {
+			if (other.login != null)
+				return false;
+		} else if (!login.equals(other.login))
+			return false;
+		if (pokemon == null) {
+			if (other.pokemon != null)
+				return false;
+		} else if (!pokemon.equals(other.pokemon))
+			return false;
+		if (senha == null) {
+			if (other.senha != null)
+				return false;
+		} else if (!senha.equals(other.senha))
+			return false;
+		if (vida == null) {
+			if (other.vida != null)
+				return false;
+		} else if (!vida.equals(other.vida))
+			return false;
+		return true;
+	}
+    
+    
 }

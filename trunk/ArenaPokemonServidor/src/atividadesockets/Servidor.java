@@ -109,7 +109,7 @@ public class Servidor {
                                 // Envia mensagem ao cliente, desejando boas vindas.   
                                 try {
                                     saida = new PrintStream(cliente.getOutputStream());
-                                    saida.println("Seja bem vindo ao servidor.");
+                                    saida.println(true);
                                 } catch (IOException ex) {
                                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -120,6 +120,16 @@ public class Servidor {
                                 while (s.hasNextLine()) {
                                     String codigo = s.nextLine();
                                     System.out.println(codigo);
+                                    
+                                    if(codigo.equals("100")){
+                                    	try {
+                                            //Aqui é onde envia a string com a posição, id, vida... para o mapa.
+                                            saida = new PrintStream(cliente.getOutputStream());
+                                            saida.println(controle.verMapa(m, linha, coluna));
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
                                     //Se o usuário enviar o código 9999 ele desconecta do servidor.
                                     if ("9999".equals(codigo)) {
                                         System.out.println(cliente.getInetAddress().getHostAddress() + " Desconectou-se");
