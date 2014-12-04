@@ -10,7 +10,6 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -160,7 +159,7 @@ public class Servidor {
                                         } else {
                                             //Atacar
                                             if (codigo.charAt(0) == '1' && codigo.charAt(1) == '1') {
-//                                                personagem.atacar(personagem.getDirecao(), linha, coluna, personagem.getId(), m);
+                                                personagem.atacar(jogador.getDirecao(), linha, coluna, personagem.getId(), m, listaUsuarios);
                                             } else {
                                                 //Andar
                                                 if (codigo.charAt(0) == '1' && codigo.charAt(1) == '2') {
