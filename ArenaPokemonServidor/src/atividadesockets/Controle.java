@@ -37,6 +37,7 @@ public class Controle {
     			if(jogadores.contains(jogadorBD)){
     				jogadores.remove(jogadorBD);
     			}
+    			
     			jogadores.add(jogadorBD);
     			return jogadorBD;
     		}
@@ -64,7 +65,7 @@ public class Controle {
         int i = 0;
         
         for (Jogador jogador : lista) {
-        	verJogadores.append(jogador.getId()).append(";").append(jogador.getPokemon()).append(";").append(jogador.getVida()).append(";").append(jogador.getDirecao());
+        	verJogadores.append(jogador.getId()).append(";").append(jogador.getPokemon()).append(";").append(jogador.getVida()).append(";").append("0").append(";").append(jogador.getDirecao());
             if(i != lista.size() - 1){
             	verJogadores.append("#");
             }
@@ -93,5 +94,7 @@ public class Controle {
     	linha = rand.nextInt(linha);
     	rand = new Random();
     	coluna = rand.nextInt(coluna);
+    	mapa[linha][coluna] = jogador.getId();
+    	
     }
 }
