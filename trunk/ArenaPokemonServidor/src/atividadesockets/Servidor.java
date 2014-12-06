@@ -139,19 +139,19 @@ public class Servidor {
                                             switch (codigo.charAt(3)) {
                                                 //Muda a direação para cima
                                                 case '1':
-                                                    personagem.setDirecao("1");
+                                                    jogador.setDirecao("1");
                                                     break;
                                                 //Muda a direação para baixo
                                                 case '2':
-                                                    personagem.setDirecao("2");
+                                                	jogador.setDirecao("2");
                                                     break;
                                                 //Muda a direação para direita
                                                 case '3':
-                                                    personagem.setDirecao("3");
+                                                	jogador.setDirecao("3");
                                                     break;
                                                 //Muda a direação para esquerda
                                                 case '4':
-                                                    personagem.setDirecao("4");
+                                                	jogador.setDirecao("4");
                                                     break;  
                                                 default:
                                                     System.out.println("B.Ó no código do cliente xômano.");
@@ -159,11 +159,11 @@ public class Servidor {
                                         } else {
                                             //Atacar
                                             if (codigo.charAt(0) == '1' && codigo.charAt(1) == '1') {
-                                                personagem.atacar(jogador.getDirecao(), linha, coluna, personagem.getId(), m, listaUsuarios);
+                                            	jogador.atacar(jogador.getDirecao(), linha, coluna, jogador.getId(), m, listaUsuarios);
                                             } else {
                                                 //Andar
                                                 if (codigo.charAt(0) == '1' && codigo.charAt(1) == '2') {
-//                                                    personagem.andar(personagem.getDirecao(), linha, coluna, personagem.getId(), m);
+                                                	jogador.andar(jogador.getDirecao(), linha, coluna, jogador.getId(), m);
                                                 }
                                             }
                                         }

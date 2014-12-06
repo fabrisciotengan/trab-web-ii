@@ -19,6 +19,11 @@ public class Jogador {
     private String pokemon;
     private String vida;
     private String direcao;
+    
+    public Jogador(){
+    	vida = "100";
+    	
+    }
 
     public int getId() {
         return id;
@@ -68,9 +73,9 @@ public class Jogador {
         this.direcao = direcao;
     }
 
-    public void andar(String direcao, int linha, int coluna, String id, int mapa[][]) {
+    public void andar(String direcao, int linha, int coluna, int id, int mapa[][]) {
 
-        int posicao = Integer.parseInt(id);
+        int posicao = id;
         int posicaoLinha = 0;
         int posicaoColuna = 0;
 
