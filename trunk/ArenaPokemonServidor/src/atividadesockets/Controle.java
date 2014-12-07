@@ -17,9 +17,7 @@ import Dao.JogadorDao;
 public class Controle {
 
     //Autentica os usuários
-    public Jogador autentica(String usuario, List<Jogador> jogadores) {
-
-        boolean controle = false;
+    public Jogador autentica(String usuario, List<Jogador> jogadores, int mapa[][], int linha, int coluna) {
 
         String comando;
         String login;
@@ -29,21 +27,45 @@ public class Controle {
         comando = valores[0];
         login = valores[1];
         senha = valores[2];
+
+//        JogadorDao jogadorDAO = new JogadorDao();
+//        Jogador jogadorBD = jogadorDAO.buscar(login);
+//        if (jogadorBD != null) {
+//            if (jogadorBD.getSenha().equals(senha)) {
+//                if (jogadores.contains(jogadorBD)) {
+//                    jogadores.remove(jogadorBD);
+//                    for (int i = 0; i < linha; i++) {
+//                        for (int j = 0; j < coluna; j++) {
+//                            if (mapa[i][j] == jogadorBD.getId()) {
+//                                mapa[i][j] = 0;
+//                            }
+//                        }
+//                    }
+//                }
+//                jogadores.add(jogadorBD);
+//                return jogadorBD;
+//            }
+//        }
         
-        JogadorDao jogadorDAO = new JogadorDao();
-    	Jogador jogadorBD = jogadorDAO.buscar(login);
-    	if(jogadorBD != null){
-    		if(jogadorBD.getSenha().equals(senha)){
-    			if(jogadores.contains(jogadorBD)){
-    				jogadores.remove(jogadorBD);
-    			}
-    			
-    			jogadores.add(jogadorBD);
-    			return jogadorBD;
-    		}
-    	}
-    	return null;
-    	
+        if("balita".equals(login) && "123".equals(senha)){
+            Jogador jogador = new Jogador();
+            jogador.setId(12);
+            jogador.setPokemon("Perebinha");
+            
+            if (jogadores.contains(jogador)) {
+                    jogadores.remove(jogador);
+                    for (int i = 0; i < linha; i++) {
+                        for (int j = 0; j < coluna; j++) {
+                            if (mapa[i][j] == jogador.getId()) {
+                                mapa[i][j] = 0;
+                            }
+                        }
+                    }
+                }
+            jogadores.add(jogador);
+            return jogador;
+        }
+        return null;
 
     }
 
@@ -54,26 +76,46 @@ public class Controle {
                 mapa[i][j] = 0;
             }
         }
-        mapa[3][2] = 3;
-        mapa[4][1] = 4;
+        Random rand = new Random();
+        int li;
+        int col;
+
+        for (int i = 0; i < ((linha + coluna) / 5) + 1; i++) {
+            while (true) {
+                li = rand.nextInt(linha);
+                col = rand.nextInt(coluna);
+                if (mapa[li][col] == 0) {
+                    mapa[li][col] = 1;
+                    break;
+                }
+            }
+            while (true) {
+                li = rand.nextInt(linha);
+                col = rand.nextInt(coluna);
+                if (mapa[li][col] == 0) {
+                    mapa[li][col] = 2;
+                    break;
+                }
+            }
+        }
     }
 
-    //Aqui há um for para percorrer a lista pegando os usuários e formando a string a ser enviada à aplicação mapa.
+//Aqui há um for para percorrer a lista pegando os usuários e formando a string a ser enviada à aplicação mapa.
     public String verJogadores(List<Jogador> lista, int mapa[][], int linha, int coluna) {
         StringBuffer verJogadores = new StringBuffer();
         verJogadores.append("101;");
         int i = 0;
-        
+
         for (Jogador jogador : lista) {
-        	verJogadores.append(jogador.getId()).append(";").append(jogador.getPokemon()).append(";").append(jogador.getVida()).append(";").append("0").append(";").append(jogador.getDirecao());
-            if(i != lista.size() - 1){
-            	verJogadores.append("#");
+            verJogadores.append(jogador.getId()).append(";").append(jogador.getPokemon()).append(";").append(jogador.getVida()).append(";").append(jogador.getPontuacao()).append(";").append(jogador.getDirecao());
+            if (i != lista.size() - 1) {
+                verJogadores.append("#");
             }
             i++;
         }
         return verJogadores.toString();
     }
-    
+
     //Método que mostra o mapa e todos os personagens nele.
     public String verMapa(int mapa[][], int linha, int coluna) {
         String l = Integer.toString(linha);
@@ -88,13 +130,19 @@ public class Controle {
         }
         return verMapa;
     }
-    public void insereJogador(Jogador jogador, int mapa[][], int linha, int coluna){
-    	Random rand = new Random();
-    	
-    	linha = rand.nextInt(linha);
-    	rand = new Random();
-    	coluna = rand.nextInt(coluna);
-    	mapa[linha][coluna] = jogador.getId();
-    	
+
+    public void insereJogador(Jogador jogador, int mapa[][], int linha, int coluna) {
+        Random rand = new Random();
+        int li;
+        int col;
+
+        while (true) {
+            li = rand.nextInt(linha);
+            col = rand.nextInt(coluna);
+            if (mapa[li][col] == 0) {
+                mapa[li][col] = jogador.getId();
+                break;
+            }
+        }
     }
 }
