@@ -17,12 +17,14 @@ public class Jogador {
     private String login;
     private String senha;
     private String pokemon;
-    private String vida;
+    private int vida;
     private String direcao;
+    private int pontuacao;
     
     public Jogador(){
-    	vida = "100";
-    	
+    	vida = 100;
+    	pontuacao = 0;
+        direcao = "1";
     }
 
     public int getId() {
@@ -57,11 +59,11 @@ public class Jogador {
         this.pokemon = pokemon;
     }
 
-    public String getVida() {
+    public int getVida() {
         return vida;
     }
 
-    public void setVida(String vida) {
+    public void setVida(int vida) {
         this.vida = vida;
     }
 
@@ -73,15 +75,24 @@ public class Jogador {
         this.direcao = direcao;
     }
 
+    public int getPontuacao() {
+        return pontuacao;
+    }
+
+    public void setPontuacao(int pontuacao) {
+        this.pontuacao = pontuacao;
+    }
+    
+    
+
     public void andar(String direcao, int linha, int coluna, int id, int mapa[][]) {
 
-        int posicao = id;
         int posicaoLinha = 0;
         int posicaoColuna = 0;
 
         for (int i = 0; i < linha; i++) {
             for (int j = 0; j < coluna; j++) {
-                if (mapa[i][j] == posicao) {
+                if (mapa[i][j] == id) {
                     posicaoLinha = i;
                     posicaoColuna = j;
                 }
@@ -92,25 +103,25 @@ public class Jogador {
             case "1":
                 if ((posicaoLinha - 1) > -1 && mapa[posicaoLinha - 1][posicaoColuna] == 0) {
                     mapa[posicaoLinha][posicaoColuna] = 0;
-                    mapa[posicaoLinha - 1][posicaoColuna] = posicao;
+                    mapa[posicaoLinha - 1][posicaoColuna] = id;
                 }
                 break;
             case "2":
                 if ((posicaoLinha + 1) < linha && mapa[posicaoLinha + 1][posicaoColuna] == 0) {
                     mapa[posicaoLinha][posicaoColuna] = 0;
-                    mapa[posicaoLinha + 1][posicaoColuna] = posicao;
+                    mapa[posicaoLinha + 1][posicaoColuna] = id;
                 }
                 break;
             case "3":
                 if ((posicaoColuna + 1) < coluna && mapa[posicaoLinha][posicaoColuna + 1] == 0) {
                     mapa[posicaoLinha][posicaoColuna] = 0;
-                    mapa[posicaoLinha][posicaoColuna + 1] = posicao;
+                    mapa[posicaoLinha][posicaoColuna + 1] = id;
                 }
                 break;
             case "4":
                 if ((posicaoColuna - 1) > -1 && mapa[posicaoLinha][posicaoColuna - 1] == 0) {
                     mapa[posicaoLinha][posicaoColuna] = 0;
-                    mapa[posicaoLinha][posicaoColuna - 1] = posicao;
+                    mapa[posicaoLinha][posicaoColuna - 1] = id;
                 }
                 break;
             default:
@@ -119,21 +130,20 @@ public class Jogador {
 
     }
 
-    public void atacar(String direcao, int linha, int coluna, int id, int mapa[][], List<Jogador> lista) {
-        int posicao = id;
+    public void atacar(Jogador jogador, int linha, int coluna, int mapa[][], List<Jogador> lista) {
         int posicaoLinha = 0;
         int posicaoColuna = 0;
 
         for (int i = 0; i < linha; i++) {
             for (int j = 0; j < coluna; j++) {
-                if (mapa[i][j] == posicao) {
+                if (mapa[i][j] == jogador.getId()) {
                     posicaoLinha = i;
                     posicaoColuna = j;
                 }
             }
         }       
 
-        switch (direcao) {
+        switch (jogador.getDirecao()) {
             case "1":
                 //Aqui o tiro vai percorrer os 5 tails acima.
                 for (int i = 1; i < 6; i++) {
@@ -147,10 +157,13 @@ public class Jogador {
                             for (int j = 0; j < lista.size(); j++) {
                                 Jogador get = lista.get(j);
                                 if (get.getId() == mapa[posicaoLinha - i][posicaoColuna]) {
-                                    get.setVida(Integer.toString(Integer.parseInt(get.getVida()) - 20));
-                                    if (Integer.parseInt(get.getVida()) <= 20) {
+                                    get.setVida(get.getVida() - 20);
+                                    if (get.getVida() <= 20) {
                                         lista.remove(j);
                                         mapa[posicaoLinha - i][posicaoColuna] = 0;
+                                        jogador.setPontuacao(jogador.getPontuacao()+ 5);
+                                    }else{
+                                        jogador.setPontuacao(jogador.getPontuacao()+ 1);
                                     }
                                 }
 
@@ -174,10 +187,13 @@ public class Jogador {
                             for (int j = 0; j < lista.size(); j++) {
                                 Jogador get = lista.get(j);
                                 if (get.getId() == mapa[posicaoLinha + i][posicaoColuna]) {
-                                    get.setVida(Integer.toString(Integer.parseInt(get.getVida()) - 20));
-                                    if (Integer.parseInt(get.getVida()) <= 20) {
+                                    get.setVida(get.getVida() - 20);
+                                    if (get.getVida() <= 20){
                                         lista.remove(j);
                                         mapa[posicaoLinha + i][posicaoColuna] = 0;
+                                        jogador.setPontuacao(jogador.getPontuacao()+ 5);
+                                    }else{
+                                        jogador.setPontuacao(jogador.getPontuacao()+ 1);
                                     }
                                 }
 
@@ -200,10 +216,13 @@ public class Jogador {
                             for (int j = 0; j < lista.size(); j++) {
                                 Jogador get = lista.get(j);
                                 if (get.getId() == mapa[posicaoLinha][posicaoColuna + i]) {
-                                    get.setVida(Integer.toString(Integer.parseInt(get.getVida()) - 20));
-                                    if (Integer.parseInt(get.getVida()) <= 20) {
+                                    get.setVida(get.getVida() - 20);
+                                    if (get.getVida() <= 20) {
                                         lista.remove(j);
                                         mapa[posicaoLinha][posicaoColuna + i] = 0;
+                                        jogador.setPontuacao(jogador.getPontuacao()+ 5);
+                                    }else{
+                                        jogador.setPontuacao(jogador.getPontuacao()+ 1);
                                     }
                                 }
 
@@ -226,10 +245,13 @@ public class Jogador {
                             for (int j = 0; j < lista.size(); j++) {
                                 Jogador get = lista.get(j);
                                 if (get.getId() == mapa[posicaoLinha][posicaoColuna - i]) {
-                                    get.setVida(Integer.toString(Integer.parseInt(get.getVida()) - 20));
-                                    if (Integer.parseInt(get.getVida()) <= 20) {
+                                    get.setVida(get.getVida() - 20);
+                                    if (get.getVida() <= 20) {
                                         lista.remove(j);
                                         mapa[posicaoLinha][posicaoColuna - i] = 0;
+                                        jogador.setPontuacao(jogador.getPontuacao()+ 5);
+                                    }else{
+                                        jogador.setPontuacao(jogador.getPontuacao()+ 1);
                                     }
                                 }
 
@@ -254,7 +276,8 @@ public class Jogador {
         result = prime * result + ((login == null) ? 0 : login.hashCode());
         result = prime * result + ((pokemon == null) ? 0 : pokemon.hashCode());
         result = prime * result + ((senha == null) ? 0 : senha.hashCode());
-        result = prime * result + ((vida == null) ? 0 : vida.hashCode());
+//        result = prime * result + ((vida == null) ? 0 : vida.hashCode());
+        result = prime * result + pontuacao;
         return result;
     }
 
@@ -280,6 +303,9 @@ public class Jogador {
         if (id != other.id) {
             return false;
         }
+        if (pontuacao != other.pontuacao) {
+            return false;
+        }
         if (login == null) {
             if (other.login != null) {
                 return false;
@@ -301,13 +327,13 @@ public class Jogador {
         } else if (!senha.equals(other.senha)) {
             return false;
         }
-        if (vida == null) {
-            if (other.vida != null) {
-                return false;
-            }
-        } else if (!vida.equals(other.vida)) {
-            return false;
-        }
+//        if (vida == null) {
+//            if (other.vida != null) {
+//                return false;
+//            }
+//        } else if (!vida.equals(other.vida)) {
+//            return false;
+//        }
         return true;
     }
 

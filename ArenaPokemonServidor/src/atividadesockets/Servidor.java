@@ -37,20 +37,19 @@ public class Servidor {
         controle.iniciaMatriz(m, linha, coluna);
 
         //Variáveis para testar o envio dos dados para a aplicação de mapa.
-        final List<Jogador> listaUsuarios = new ArrayList<>();
+        final List<Jogador> listaJogadores = new ArrayList<>();
         final Jogador personagem = new Jogador();
         Jogador personagem1 = new Jogador();
+        
         personagem.setId(3);
-        personagem.setPokemon("1");
-        personagem.setVida("100");
-        personagem.setDirecao("2");
-        listaUsuarios.add(personagem);
+        personagem.setPokemon("Pika-Pika");
+        listaJogadores.add(personagem);
+        controle.insereJogador(personagem, m, linha, coluna);
 
         personagem1.setId(4);
-        personagem1.setPokemon("3");
-        personagem1.setVida("100");
-        personagem1.setDirecao("4");
-        listaUsuarios.add(personagem1);
+        personagem1.setPokemon("Charizard");
+        listaJogadores.add(personagem1);
+        controle.insereJogador(personagem1, m, linha, coluna);
 
         while (true) {
             final Socket cliente = servidor.accept();
@@ -88,27 +87,26 @@ public class Servidor {
                         try {
                             //Aqui é onde envia a string com a posição, id, vida... para o mapa.
                             saida = new PrintStream(cliente.getOutputStream());
-                            saida.println(controle.verJogadores(listaUsuarios, m, linha, coluna));
+                            saida.println(controle.verJogadores(listaJogadores, m, linha, coluna));
                         } catch (IOException ex) {
                             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     } else {
                         //Parte do código que pega a string do cliente, separa e coloca em um objeto
-                    	//Autenticação
+                        //Autenticação
                         if (buf.charAt(0) == '1' && buf.charAt(1) == ';' && temInformacao == true) {
-                        	Jogador jogador = controle.autentica(buf, listaUsuarios);
-                            if ( jogador == null ? false : true) {
-                                System.out.println(cliente.getInetAddress().getHostAddress() + " Logou-se ao jogo");
-                                
+                            Jogador jogador = controle.autentica(buf, listaJogadores, m,linha, coluna);
+                            if (jogador == null ? false : true) {
+                                System.out.println(cliente.getInetAddress().getHostAddress() +" Logou-se ao jogo");
+
                                 //coloca o jogador em uma posição random na matriz
-                                
-                               controle.insereJogador(jogador, m, linha, coluna);
+                                controle.insereJogador(jogador, m, linha, coluna);
 
                                 // Envia mensagem ao cliente, desejando boas vindas.   
                                 try {
                                     saida = new PrintStream(cliente.getOutputStream());
-                                    saida.println(true);
+                                    saida.println("Você foi conectado com o id: "+jogador.getId());
                                 } catch (IOException ex) {
                                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -116,26 +114,26 @@ public class Servidor {
                                 /* Aqui o servidor fica em um loop infinito recebendo informações do cliente até que ele envie "9999", que é onde sai do loop.
                                  * Aqui dentro que tem que por os IF's para efetuar as ações de atacar... andar..
                                  */
-                                while (s.hasNextLine()) {
+                                while (s.hasNextLine() && cliente.isConnected()) {
                                     String codigo = s.nextLine();
                                     System.out.println(codigo);
-                                    
-                                    if(codigo.equals("100")){
-                                    	try {
-                                            //Aqui é onde envia a string com a posição, id, vida... para o mapa.
-                                            saida = new PrintStream(cliente.getOutputStream());
-                                            saida.println(controle.verMapa(m, linha, coluna));
-                                        } catch (IOException ex) {
-                                            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-                                        }
-                                    }
+
+//                                    if (codigo.equals("100")) {
+//                                        try {
+//                                            //Aqui é onde envia a string com a posição, id, vida... para o mapa.
+//                                            saida = new PrintStream(cliente.getOutputStream());
+//                                            saida.println(controle.verMapa(m, linha, coluna));
+//                                        } catch (IOException ex) {
+//                                            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+//                                        }
+//                                    }
                                     //Se o usuário enviar o código 9999 ele desconecta do servidor.
                                     if ("9999".equals(codigo)) {
                                         System.out.println(cliente.getInetAddress().getHostAddress() + " Desconectou-se");
                                         break;
                                     } else {
                                         //Direação
-                                        if (codigo.charAt(0) == '1' && codigo.charAt(1) == '0' && codigo.charAt(2) == ';') {
+                                        if (codigo.charAt(0) == '1' && codigo.charAt(1) == '0' && codigo.charAt(2) == ';' && (codigo.charAt(3) == '1' || codigo.charAt(3) == '2' || codigo.charAt(3) == '3' || codigo.charAt(3) == '4')) {
                                             switch (codigo.charAt(3)) {
                                                 //Muda a direação para cima
                                                 case '1':
@@ -143,27 +141,27 @@ public class Servidor {
                                                     break;
                                                 //Muda a direação para baixo
                                                 case '2':
-                                                	jogador.setDirecao("2");
+                                                    jogador.setDirecao("2");
                                                     break;
                                                 //Muda a direação para direita
                                                 case '3':
-                                                	jogador.setDirecao("3");
+                                                    jogador.setDirecao("3");
                                                     break;
                                                 //Muda a direação para esquerda
                                                 case '4':
-                                                	jogador.setDirecao("4");
-                                                    break;  
+                                                    jogador.setDirecao("4");
+                                                    break;
                                                 default:
                                                     System.out.println("B.Ó no código do cliente xômano.");
                                             }
                                         } else {
                                             //Atacar
                                             if (codigo.charAt(0) == '1' && codigo.charAt(1) == '1') {
-                                            	jogador.atacar(jogador.getDirecao(), linha, coluna, jogador.getId(), m, listaUsuarios);
+                                                jogador.atacar(jogador, linha, coluna, m, listaJogadores);
                                             } else {
                                                 //Andar
                                                 if (codigo.charAt(0) == '1' && codigo.charAt(1) == '2') {
-                                                	jogador.andar(jogador.getDirecao(), linha, coluna, jogador.getId(), m);
+                                                    jogador.andar(jogador.getDirecao(), linha, coluna, jogador.getId(), m);
                                                 }
                                             }
                                         }
