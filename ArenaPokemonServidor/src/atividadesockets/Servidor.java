@@ -40,7 +40,7 @@ public class Servidor {
         final List<Jogador> listaJogadores = new ArrayList<>();
         final Jogador personagem = new Jogador();
         Jogador personagem1 = new Jogador();
-        
+
         personagem.setId(3);
         personagem.setPokemon("Pika-Pika");
         listaJogadores.add(personagem);
@@ -53,6 +53,7 @@ public class Servidor {
 
         while (true) {
             final Socket cliente = servidor.accept();
+            System.out.println("Há: " + Thread.activeCount() + " threads ativas até momento.");
 
             Thread tratar = new Thread() {
                 @Override
@@ -68,10 +69,10 @@ public class Servidor {
                     }
 
                     boolean temInformacao = s.hasNextLine();
-                    String buf = s.nextLine();
+                    String entrada = s.nextLine();
 
                     //Ver mapa
-                    if (temInformacao == true && "100".equals(buf)) {
+                    if (temInformacao == true && "100".equals(entrada)) {
                         try {
                             //Aqui é onde envia a string com a posição, id, vida... para o mapa.
                             saida = new PrintStream(cliente.getOutputStream());
@@ -82,7 +83,7 @@ public class Servidor {
                     }
 
                     //Aqui será a parte onde o servidor irá verificar se é o cara do mapa que está requisitando informações.
-                    if (temInformacao == true && "101".equals(buf)) {
+                    if (temInformacao == true && "101".equals(entrada)) {
 
                         try {
                             //Aqui é onde envia a string com a posição, id, vida... para o mapa.
@@ -95,10 +96,10 @@ public class Servidor {
                     } else {
                         //Parte do código que pega a string do cliente, separa e coloca em um objeto
                         //Autenticação
-                        if (buf.charAt(0) == '1' && buf.charAt(1) == ';' && temInformacao == true) {
-                            Jogador jogador = controle.autentica(buf, listaJogadores, m,linha, coluna);
+                        if (entrada.charAt(0) == '1' && entrada.charAt(1) == ';' && temInformacao == true) {
+                            Jogador jogador = controle.autentica(entrada, listaJogadores, m, linha, coluna);
                             if (jogador == null ? false : true) {
-                                System.out.println(cliente.getInetAddress().getHostAddress() +" Logou-se ao jogo");
+                                System.out.println(cliente.getInetAddress().getHostAddress() + " Logou-se ao jogo");
 
                                 //coloca o jogador em uma posição random na matriz
                                 controle.insereJogador(jogador, m, linha, coluna);
@@ -106,7 +107,7 @@ public class Servidor {
                                 // Envia mensagem ao cliente, desejando boas vindas.   
                                 try {
                                     saida = new PrintStream(cliente.getOutputStream());
-                                    saida.println("Você foi conectado com o id: "+jogador.getId());
+                                    saida.println("Você foi conectado com o id: " + jogador.getId());
                                 } catch (IOException ex) {
                                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -118,15 +119,6 @@ public class Servidor {
                                     String codigo = s.nextLine();
                                     System.out.println(codigo);
 
-//                                    if (codigo.equals("100")) {
-//                                        try {
-//                                            //Aqui é onde envia a string com a posição, id, vida... para o mapa.
-//                                            saida = new PrintStream(cliente.getOutputStream());
-//                                            saida.println(controle.verMapa(m, linha, coluna));
-//                                        } catch (IOException ex) {
-//                                            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-//                                        }
-//                                    }
                                     //Se o usuário enviar o código 9999 ele desconecta do servidor.
                                     if ("9999".equals(codigo)) {
                                         System.out.println(cliente.getInetAddress().getHostAddress() + " Desconectou-se");
@@ -180,7 +172,7 @@ public class Servidor {
                                 }
                             }
                             //Aqui remove o jogador do mapa.
-                            jogador.removeMapa(jogador.getId(), linha, coluna, m);
+                            jogador.removeMapa(jogador, linha, coluna, m, listaJogadores);
                         }
                     }
 
