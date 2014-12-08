@@ -47,7 +47,7 @@ public class Controle {
 //            }
 //        }
         
-        if("balita".equals(login) && "123".equals(senha)){
+        if("teste".equals(login) && "123".equals(senha)){
             Jogador jogador = new Jogador();
             jogador.setId(12);
             jogador.setPokemon("Perebinha");
@@ -130,7 +130,8 @@ public class Controle {
         }
         return verMapa;
     }
-
+    
+    //Função para colocar um jogador em uma posição aleatória da matriz.
     public void insereJogador(Jogador jogador, int mapa[][], int linha, int coluna) {
         Random rand = new Random();
         int li;

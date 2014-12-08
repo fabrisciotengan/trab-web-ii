@@ -34,10 +34,13 @@ public class Servidor {
         ServerSocket servidor = new ServerSocket(12345);
         System.out.println("Porta 12345 aberta!");
         final Controle controle = new Controle();
+        // Método que insere 0 na matriz toda e coloca os obstáculos.
         controle.iniciaMatriz(m, linha, coluna);
 
         //Variáveis para testar o envio dos dados para a aplicação de mapa.
         final List<Jogador> listaJogadores = new ArrayList<>();
+        
+        //Neste trecho é somente jogadores para testar.
         final Jogador personagem = new Jogador();
         Jogador personagem1 = new Jogador();
 
@@ -50,10 +53,11 @@ public class Servidor {
         personagem1.setPokemon("Charizard");
         listaJogadores.add(personagem1);
         controle.insereJogador(personagem1, m, linha, coluna);
-
+        
+        
         while (true) {
             final Socket cliente = servidor.accept();
-            System.out.println("Há: " + Thread.activeCount() + " threads ativas até momento.");
+//            System.out.println("Há: " + Thread.activeCount() + " threads ativas até momento."); //Com este código da para verificar quantas treads estão ativas.
 
             Thread tratar = new Thread() {
                 @Override
@@ -82,7 +86,7 @@ public class Servidor {
                         }
                     }
 
-                    //Aqui será a parte onde o servidor irá verificar se é o cara do mapa que está requisitando informações.
+                    //Ver jogadores
                     if (temInformacao == true && "101".equals(entrada)) {
 
                         try {
@@ -94,9 +98,9 @@ public class Servidor {
                         }
 
                     } else {
-                        //Parte do código que pega a string do cliente, separa e coloca em um objeto
                         //Autenticação
                         if (entrada.charAt(0) == '1' && entrada.charAt(1) == ';' && temInformacao == true) {
+                            //Aqui é onde cria o objeto do jogador e efetua a autenticação.
                             Jogador jogador = controle.autentica(entrada, listaJogadores, m, linha, coluna);
                             if (jogador == null ? false : true) {
                                 System.out.println(cliente.getInetAddress().getHostAddress() + " Logou-se ao jogo");
@@ -104,7 +108,7 @@ public class Servidor {
                                 //coloca o jogador em uma posição random na matriz
                                 controle.insereJogador(jogador, m, linha, coluna);
 
-                                // Envia mensagem ao cliente, desejando boas vindas.   
+                                // Envia mensagem ao cliente com o seu número de ID.
                                 try {
                                     saida = new PrintStream(cliente.getOutputStream());
                                     saida.println("Você foi conectado com o id: " + jogador.getId());
@@ -112,7 +116,7 @@ public class Servidor {
                                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                                 }
 
-                                /* Aqui o servidor fica em um loop infinito recebendo informações do cliente até que ele envie "9999", que é onde sai do loop.
+                                /* Aqui o servidor fica em um loop infinito recebendo informações do cliente até que ele envie "9999" ou desconecte do socket, que é onde sai do loop.
                                  * Aqui dentro que tem que por os IF's para efetuar as ações de atacar... andar..
                                  */
                                 while (s.hasNextLine() && cliente.isConnected()) {
@@ -171,7 +175,7 @@ public class Servidor {
                                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
-                            //Aqui remove o jogador do mapa.
+                            //Aqui remove o jogador do mapa e da lista ligada.
                             jogador.removeMapa(jogador, linha, coluna, m, listaJogadores);
                         }
                     }
