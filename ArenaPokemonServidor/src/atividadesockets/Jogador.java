@@ -20,10 +20,10 @@ public class Jogador {
     private int vida;
     private String direcao;
     private int pontuacao;
-    
-    public Jogador(){
-    	vida = 100;
-    	pontuacao = 0;
+
+    public Jogador() {
+        vida = 100;
+        pontuacao = 0;
         direcao = "1";
     }
 
@@ -82,8 +82,16 @@ public class Jogador {
     public void setPontuacao(int pontuacao) {
         this.pontuacao = pontuacao;
     }
-    
-    
+
+    public void removeMapa(int id, int linha, int coluna, int mapa[][]) {
+        for (int i = 0; i < linha; i++) {
+            for (int j = 0; j < coluna; j++) {
+                if (mapa[i][j] == id) {
+                    mapa[i][j] = 0;
+                }
+            }
+        }
+    }
 
     public void andar(String direcao, int linha, int coluna, int id, int mapa[][]) {
 
@@ -141,12 +149,12 @@ public class Jogador {
                     posicaoColuna = j;
                 }
             }
-        }       
+        }
 
         switch (jogador.getDirecao()) {
             case "1":
                 //Aqui o tiro vai percorrer os 5 tails acima.
-                for (int i = 1; i < 6; i++) {
+                for (int i = 0; i < 5; i++) {
                     //Atirou para cima e acertou a borda da matriz ou atirou numa parede...
                     if (mapa[posicaoLinha - i][posicaoColuna] < 0 || mapa[posicaoLinha - i][posicaoColuna] == 1) {
                         break;
@@ -158,12 +166,12 @@ public class Jogador {
                                 Jogador get = lista.get(j);
                                 if (get.getId() == mapa[posicaoLinha - i][posicaoColuna]) {
                                     get.setVida(get.getVida() - 20);
-                                    if (get.getVida() <= 20) {
+                                    if (get.getVida() < 20) {
                                         lista.remove(j);
                                         mapa[posicaoLinha - i][posicaoColuna] = 0;
-                                        jogador.setPontuacao(jogador.getPontuacao()+ 5);
-                                    }else{
-                                        jogador.setPontuacao(jogador.getPontuacao()+ 1);
+                                        jogador.setPontuacao(jogador.getPontuacao() + 5);
+                                    } else {
+                                        jogador.setPontuacao(jogador.getPontuacao() + 1);
                                     }
                                 }
 
@@ -175,9 +183,16 @@ public class Jogador {
                 break;
 
             case "2":
+                if (posicaoLinha == linha-1) {
+                    System.out.println("tiro pegou na borda de baixo.");
+                    break;
+                }
                 //Aqui o tiro vai percorrer os 5 tails para baixo.
                 for (int i = 1; i < 6; i++) {
                     //Atirou para cima e acertou a borda da matriz ou atirou numa parede...
+                    if(i == linha || posicaoLinha + i > linha-1){
+                        break;
+                    }
                     if (mapa[posicaoLinha + i][posicaoColuna] > linha || mapa[posicaoLinha + i][posicaoColuna] == 1) {
                         break;
                     } else {
@@ -188,12 +203,12 @@ public class Jogador {
                                 Jogador get = lista.get(j);
                                 if (get.getId() == mapa[posicaoLinha + i][posicaoColuna]) {
                                     get.setVida(get.getVida() - 20);
-                                    if (get.getVida() <= 20){
+                                    if (get.getVida() < 20) {
                                         lista.remove(j);
                                         mapa[posicaoLinha + i][posicaoColuna] = 0;
-                                        jogador.setPontuacao(jogador.getPontuacao()+ 5);
-                                    }else{
-                                        jogador.setPontuacao(jogador.getPontuacao()+ 1);
+                                        jogador.setPontuacao(jogador.getPontuacao() + 5);
+                                    } else {
+                                        jogador.setPontuacao(jogador.getPontuacao() + 1);
                                     }
                                 }
 
@@ -217,12 +232,12 @@ public class Jogador {
                                 Jogador get = lista.get(j);
                                 if (get.getId() == mapa[posicaoLinha][posicaoColuna + i]) {
                                     get.setVida(get.getVida() - 20);
-                                    if (get.getVida() <= 20) {
+                                    if (get.getVida() < 20) {
                                         lista.remove(j);
                                         mapa[posicaoLinha][posicaoColuna + i] = 0;
-                                        jogador.setPontuacao(jogador.getPontuacao()+ 5);
-                                    }else{
-                                        jogador.setPontuacao(jogador.getPontuacao()+ 1);
+                                        jogador.setPontuacao(jogador.getPontuacao() + 5);
+                                    } else {
+                                        jogador.setPontuacao(jogador.getPontuacao() + 1);
                                     }
                                 }
 
@@ -246,12 +261,12 @@ public class Jogador {
                                 Jogador get = lista.get(j);
                                 if (get.getId() == mapa[posicaoLinha][posicaoColuna - i]) {
                                     get.setVida(get.getVida() - 20);
-                                    if (get.getVida() <= 20) {
+                                    if (get.getVida() < 20) {
                                         lista.remove(j);
                                         mapa[posicaoLinha][posicaoColuna - i] = 0;
-                                        jogador.setPontuacao(jogador.getPontuacao()+ 5);
-                                    }else{
-                                        jogador.setPontuacao(jogador.getPontuacao()+ 1);
+                                        jogador.setPontuacao(jogador.getPontuacao() + 5);
+                                    } else {
+                                        jogador.setPontuacao(jogador.getPontuacao() + 1);
                                     }
                                 }
 
