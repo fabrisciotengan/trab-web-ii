@@ -83,11 +83,18 @@ public class Jogador {
         this.pontuacao = pontuacao;
     }
 
-    public void removeMapa(int id, int linha, int coluna, int mapa[][]) {
+    public void removeMapa(Jogador jogador, int linha, int coluna, int mapa[][], List<Jogador> lista) {
         for (int i = 0; i < linha; i++) {
             for (int j = 0; j < coluna; j++) {
-                if (mapa[i][j] == id) {
+                if (mapa[i][j] == jogador.getId()) {
                     mapa[i][j] = 0;
+                    for (int k = 0; k < lista.size(); k++) {
+                        Jogador jogador1 = lista.get(k);
+                        if (jogador1.getId() == jogador.getId()) {
+                            lista.remove(k);
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -160,7 +167,7 @@ public class Jogador {
                 //Aqui o tiro vai percorrer os 5 tails acima.
                 for (int i = 1; i < 6; i++) {
                     //Para não dar problemas, é preciso verificar se os valores estão entre os valores permitidos da matriz
-                    if(i == linha || posicaoLinha - i < 0){
+                    if (i == linha || posicaoLinha - i < 0) {
                         break;
                     }
                     if (mapa[posicaoLinha - i][posicaoColuna] < 0 || mapa[posicaoLinha - i][posicaoColuna] == 1) {
@@ -190,13 +197,13 @@ public class Jogador {
                 break;
 
             case "2":
-                if (posicaoLinha == linha-1) {
+                if (posicaoLinha == linha - 1) {
                     break;
                 }
                 //Aqui o tiro vai percorrer os 5 tails para baixo.
                 for (int i = 1; i < 6; i++) {
                     //Atirou para cima e acertou a borda da matriz ou atirou numa parede...
-                    if(i == linha || posicaoLinha + i > linha-1){
+                    if (i == linha || posicaoLinha + i > linha - 1) {
                         break;
                     }
                     if (mapa[posicaoLinha + i][posicaoColuna] > linha || mapa[posicaoLinha + i][posicaoColuna] == 1) {
@@ -225,12 +232,12 @@ public class Jogador {
                 }
                 break;
             case "3":
-                if (posicaoColuna == coluna-1) {
+                if (posicaoColuna == coluna - 1) {
                     break;
                 }
                 //Aqui o tiro vai percorrer os 5 tails para a direita.
                 for (int i = 1; i < 6; i++) {
-                    if(i == coluna || posicaoColuna + i > coluna-1){
+                    if (i == coluna || posicaoColuna + i > coluna - 1) {
                         break;
                     }
                     //Atirou para cima e acertou a borda da matriz ou atirou numa parede...
@@ -265,7 +272,7 @@ public class Jogador {
                 }
                 //Aqui o tiro vai percorrer os 5 tails para a esquerda.
                 for (int i = 1; i < 6; i++) {
-                    if(i == coluna || posicaoColuna - i < 0){
+                    if (i == coluna || posicaoColuna - i < 0) {
                         break;
                     }
                     //Atirou para cima e acertou a borda da matriz ou atirou numa parede...
