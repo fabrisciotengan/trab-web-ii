@@ -82,7 +82,8 @@ public class Jogador {
     public void setPontuacao(int pontuacao) {
         this.pontuacao = pontuacao;
     }
-
+    
+    //Método que remove o jogador da matriz e da lista ligada.
     public void removeMapa(Jogador jogador, int linha, int coluna, int mapa[][], List<Jogador> lista) {
         for (int i = 0; i < linha; i++) {
             for (int j = 0; j < coluna; j++) {
@@ -99,7 +100,8 @@ public class Jogador {
             }
         }
     }
-
+    
+    //Método que realiza a função de andar.
     public void andar(String direcao, int linha, int coluna, int id, int mapa[][]) {
 
         int posicaoLinha = 0;
@@ -145,6 +147,7 @@ public class Jogador {
 
     }
 
+    //Método de ataque do jogador.
     public void atacar(Jogador jogador, int linha, int coluna, int mapa[][], List<Jogador> lista) {
         int posicaoLinha = 0;
         int posicaoColuna = 0;
@@ -307,6 +310,7 @@ public class Jogador {
 
     }
 
+    //Não sei pra que serve :/
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -321,6 +325,7 @@ public class Jogador {
         return result;
     }
 
+    //Também não sei :/
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
