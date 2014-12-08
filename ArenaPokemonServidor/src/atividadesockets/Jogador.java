@@ -153,9 +153,16 @@ public class Jogador {
 
         switch (jogador.getDirecao()) {
             case "1":
+                //Se o personagem já estiver na borda da matriz, ele não irá atacar para cima.
+                if (posicaoLinha == 0) {
+                    break;
+                }
                 //Aqui o tiro vai percorrer os 5 tails acima.
-                for (int i = 0; i < 5; i++) {
-                    //Atirou para cima e acertou a borda da matriz ou atirou numa parede...
+                for (int i = 1; i < 6; i++) {
+                    //Para não dar problemas, é preciso verificar se os valores estão entre os valores permitidos da matriz
+                    if(i == linha || posicaoLinha - i < 0){
+                        break;
+                    }
                     if (mapa[posicaoLinha - i][posicaoColuna] < 0 || mapa[posicaoLinha - i][posicaoColuna] == 1) {
                         break;
                     } else {
@@ -184,7 +191,6 @@ public class Jogador {
 
             case "2":
                 if (posicaoLinha == linha-1) {
-                    System.out.println("tiro pegou na borda de baixo.");
                     break;
                 }
                 //Aqui o tiro vai percorrer os 5 tails para baixo.
@@ -219,8 +225,14 @@ public class Jogador {
                 }
                 break;
             case "3":
+                if (posicaoColuna == coluna-1) {
+                    break;
+                }
                 //Aqui o tiro vai percorrer os 5 tails para a direita.
                 for (int i = 1; i < 6; i++) {
+                    if(i == coluna || posicaoColuna + i > coluna-1){
+                        break;
+                    }
                     //Atirou para cima e acertou a borda da matriz ou atirou numa parede...
                     if (mapa[posicaoLinha][posicaoColuna + i] > coluna || mapa[posicaoLinha][posicaoColuna + i] == 1) {
                         break;
@@ -248,8 +260,14 @@ public class Jogador {
                 }
                 break;
             case "4":
+                if (posicaoColuna == 0) {
+                    break;
+                }
                 //Aqui o tiro vai percorrer os 5 tails para a esquerda.
                 for (int i = 1; i < 6; i++) {
+                    if(i == coluna || posicaoColuna - i < 0){
+                        break;
+                    }
                     //Atirou para cima e acertou a borda da matriz ou atirou numa parede...
                     if (mapa[posicaoLinha][posicaoColuna - i] > coluna || mapa[posicaoLinha][posicaoColuna - i] == 1) {
                         break;
