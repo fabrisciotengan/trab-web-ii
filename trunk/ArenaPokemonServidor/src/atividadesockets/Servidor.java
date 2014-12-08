@@ -155,13 +155,13 @@ public class Servidor {
                                                     System.out.println("B.Ó no código do cliente xômano.");
                                             }
                                         } else {
-                                            //Atacar
+                                            //Andar
                                             if (codigo.charAt(0) == '1' && codigo.charAt(1) == '1') {
-                                                jogador.atacar(jogador, linha, coluna, m, listaJogadores);
+                                                jogador.andar(jogador.getDirecao(), linha, coluna, jogador.getId(), m);
                                             } else {
-                                                //Andar
+                                                //Atacar
                                                 if (codigo.charAt(0) == '1' && codigo.charAt(1) == '2') {
-                                                    jogador.andar(jogador.getDirecao(), linha, coluna, jogador.getId(), m);
+                                                    jogador.atacar(jogador, linha, coluna, m, listaJogadores);
                                                 }
                                             }
                                         }
@@ -179,8 +179,9 @@ public class Servidor {
                                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
+                            //Aqui remove o jogador do mapa.
+                            jogador.removeMapa(jogador.getId(), linha, coluna, m);
                         }
-
                     }
 
                     s.close();
