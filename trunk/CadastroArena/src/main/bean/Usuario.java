@@ -1,5 +1,6 @@
 package bean;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,8 +24,20 @@ public class Usuario {
 	    private String pokemon;
 	    private String vida;
 	    private String direcao;
+	    @Column(columnDefinition = "float default 0")
+	    private int score;
+	    
+	    
 
-	    public int getId() {
+	    public int getScore() {
+			return score;
+		}
+
+		public void setScore(int score) {
+			this.score = score;
+		}
+
+		public int getId() {
 	        return id;
 	    }
 
