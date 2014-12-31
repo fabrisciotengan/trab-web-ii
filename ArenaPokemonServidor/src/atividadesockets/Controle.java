@@ -28,43 +28,43 @@ public class Controle {
         login = valores[1];
         senha = valores[2];
 
-//        JogadorDao jogadorDAO = new JogadorDao();
-//        Jogador jogadorBD = jogadorDAO.buscar(login);
-//        if (jogadorBD != null) {
-//            if (jogadorBD.getSenha().equals(senha)) {
-//                if (jogadores.contains(jogadorBD)) {
-//                    jogadores.remove(jogadorBD);
-//                    for (int i = 0; i < linha; i++) {
-//                        for (int j = 0; j < coluna; j++) {
-//                            if (mapa[i][j] == jogadorBD.getId()) {
-//                                mapa[i][j] = 0;
-//                            }
-//                        }
-//                    }
-//                }
-//                jogadores.add(jogadorBD);
-//                return jogadorBD;
-//            }
-//        }
-        
-        if("teste".equals(login) && "123".equals(senha)){
-            Jogador jogador = new Jogador();
-            jogador.setId(12);
-            jogador.setPokemon("Perebinha");
-            
-            if (jogadores.contains(jogador)) {
-                    jogadores.remove(jogador);
+        JogadorDao jogadorDAO = new JogadorDao();
+        Jogador jogadorBD = jogadorDAO.buscar(login);
+        if (jogadorBD != null) {
+            if (jogadorBD.getSenha().equals(senha)) {
+                if (jogadores.contains(jogadorBD)) {
+                    jogadores.remove(jogadorBD);
                     for (int i = 0; i < linha; i++) {
                         for (int j = 0; j < coluna; j++) {
-                            if (mapa[i][j] == jogador.getId()) {
+                            if (mapa[i][j] == jogadorBD.getId()) {
                                 mapa[i][j] = 0;
                             }
                         }
                     }
                 }
-            jogadores.add(jogador);
-            return jogador;
+                jogadores.add(jogadorBD);
+                return jogadorBD;
+            }
         }
+        
+//        if("teste".equals(login) && "123".equals(senha)){
+//            Jogador jogador = new Jogador();
+//            jogador.setId(12);
+//            jogador.setPokemon("Perebinha");
+//            
+//            if (jogadores.contains(jogador)) {
+//                    jogadores.remove(jogador);
+//                    for (int i = 0; i < linha; i++) {
+//                        for (int j = 0; j < coluna; j++) {
+//                            if (mapa[i][j] == jogador.getId()) {
+//                                mapa[i][j] = 0;
+//                            }
+//                        }
+//                    }
+//                }
+//            jogadores.add(jogador);
+//            return jogador;
+//        }
         return null;
 
     }

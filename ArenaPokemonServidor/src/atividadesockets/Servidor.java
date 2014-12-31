@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -28,8 +30,8 @@ public class Servidor {
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
 
-        final int linha = 5;
-        final int coluna = 5;
+        final int linha = 8;
+        final int coluna = 8;
         final int m[][] = new int[linha][coluna];
         ServerSocket servidor = new ServerSocket(12345);
         System.out.println("Porta 12345 aberta!");
@@ -49,7 +51,7 @@ public class Servidor {
         listaJogadores.add(personagem);
         controle.insereJogador(personagem, m, linha, coluna);
 
-        personagem1.setId(4);
+        personagem1.setId(25);
         personagem1.setPokemon("Charizard");
         listaJogadores.add(personagem1);
         controle.insereJogador(personagem1, m, linha, coluna);
@@ -76,6 +78,7 @@ public class Servidor {
 
                     if (("101".equals(entrada) || "100".equals(entrada)) && temInformacao == true) {
                         while (s.hasNextLine() && cliente.isConnected()) {
+                        	
                             boolean temInfo = s.hasNextLine();
                             String codigo = s.nextLine();
                             System.out.println(codigo);
@@ -118,7 +121,7 @@ public class Servidor {
                                 // Envia mensagem ao cliente com o seu número de ID.
                                 try {
                                     saida = new PrintStream(cliente.getOutputStream());
-                                    saida.println("Você foi conectado com o id: " + jogador.getId());
+                                    saida.println(jogador.getId());
                                 } catch (IOException ex) {
                                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -127,9 +130,15 @@ public class Servidor {
                                  * Aqui dentro que tem que por os IF's para efetuar as ações de atacar... andar..
                                  */
                                 while (s.hasNextLine() && cliente.isConnected()) {
-                                    boolean temInfo = s.hasNextLine();
+                                	if(jogador.getVida() == 0){
+                                		break;
+                                	}
+                                	
+                                	Date tempo = new Date();
+                                	
+                                	boolean temInfo = s.hasNextLine();
                                     String codigo = s.nextLine();
-                                    System.out.println(codigo);
+                                    System.out.println(jogador.getId() + "= " + codigo);
 
                                     //Ver mapa
                                     if (temInfo == true && "100".equals(codigo)) {
@@ -199,7 +208,7 @@ public class Servidor {
                             } else {
                                 try {
                                     saida = new PrintStream(cliente.getOutputStream());
-                                    saida.println(cliente.getInetAddress().getHostAddress() + " Falha ao conectar-se ao jogo, login ou senha incorreta.");
+                                    saida.println(-1);
                                     System.out.println(cliente.getInetAddress().getHostAddress() + " Falha ao conectar-se ao jogo, login ou senha incorreta.");
                                     s.close();
                                     cliente.close();
